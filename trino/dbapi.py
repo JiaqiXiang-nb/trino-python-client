@@ -689,7 +689,9 @@ class Cursor(object):
         return list(iter(self.fetchone, None))
 
     def poll(self) -> bool:
-        return not self._query.finished
+        if self._query.finished:
+            return None
+        return self.stats
 
     def cancel(self):
         if self._query is None:
