@@ -353,6 +353,7 @@ class Cursor(object):
         self._iterator = None
         self._query = None
         self._legacy_primitive_types = legacy_primitive_types
+        self.fake_counter = 5
 
     def __iter__(self):
         return self._iterator
@@ -587,6 +588,7 @@ class Cursor(object):
             self._query = trino.client.TrinoQuery(self._request, query=operation,
                                                   legacy_primitive_types=self._legacy_primitive_types)
             self._iterator = iter(self._query.execute())
+        self.fake_counter = 5
         return self
 
     def executemany(self, operation, seq_of_params):
@@ -692,8 +694,11 @@ class Cursor(object):
         if self._query is None:
             logger.info("query is None")
             return None
-        logger.info(self._query)
-        return None
+        if self.fake_counter <= 0:
+            return None
+        logger.info(self.stats)
+        self.fake_counter -= 1
+        return self.stats
 
     def cancel(self):
         if self._query is None:
