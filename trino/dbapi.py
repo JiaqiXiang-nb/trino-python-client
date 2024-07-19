@@ -408,6 +408,10 @@ class Cursor(object):
         return None
 
     @property
+    def poll(self):
+        return self.stats()
+
+    @property
     def query_id(self) -> Optional[str]:
         if self._query is not None:
             return self._query.query_id
