@@ -692,11 +692,12 @@ class Cursor(object):
         if self._query is None:
             logger.info("query is None")
             return None
+        logger.info(self._query)
         if self._query.finished:
             logger.info("query is finished")
             return None
-        logger.info(self.stats)
-        return self.stats
+        logger.info(self._query.stats)
+        return self._query.stats
 
     def cancel(self):
         if self._query is None:
