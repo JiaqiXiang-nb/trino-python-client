@@ -688,10 +688,8 @@ class Cursor(object):
     def fetchall(self) -> List[List[Any]]:
         return list(iter(self.fetchone, None))
 
-    def poll(self):
-        if self._query is not None:
-            return self._query.stats
-        return None
+    def poll(self) -> bool:
+        return not self._query.finished
 
     def cancel(self):
         if self._query is None:
